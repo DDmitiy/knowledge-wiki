@@ -4,8 +4,8 @@ from .models import Article, Catalog
 
 
 class ArticleLook(admin.ModelAdmin):
-    list_display = ('title', 'catalog', 'date')
-    list_filter = ['catalog', 'date']
+    list_display = ('title', 'catalog', 'date', 'is_index')
+    list_filter = ['catalog', 'date', 'is_index']
 
 
 class CatalogLook(admin.ModelAdmin):
