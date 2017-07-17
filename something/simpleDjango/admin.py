@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article, Catalog
+from .models import Article, Catalog, User
 # Register your models here.
 
 
@@ -15,3 +15,4 @@ class CatalogLook(admin.ModelAdmin):
 
 admin.site.register(Article, ArticleLook)
 admin.site.register(Catalog, CatalogLook)
+admin.site.register(User)
