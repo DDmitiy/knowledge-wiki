@@ -13,6 +13,11 @@ class CatalogLook(admin.ModelAdmin):
     list_filter = ['parent_catalog']
 
 
+class UserLook(admin.ModelAdmin):
+    list_display = ('username', 'email', 'is_staff')
+    list_filter = ['is_staff', 'is_superuser', 'groups']
+
+
 admin.site.register(Article, ArticleLook)
 admin.site.register(Catalog, CatalogLook)
-admin.site.register(User)
+admin.site.register(User, UserLook)

@@ -41,20 +41,21 @@ class Catalog(models.Model):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    birth_date = models.DateField('Дата рождения')
-    groups = models.ManyToManyField(Group, 'Группы')
-    user_permissions = models.ManyToManyField(Permission, 'Права')
+    birth_date = models.DateField('Дата рождения', blank=True, null=True)
+    groups = models.ManyToManyField(Group, 'Группы', blank=True, null=True)
+    user_permissions = models.ManyToManyField(Permission, 'Права', blank=True, null=True)
     is_superuser = models.BooleanField('Суперпользователь?')
     is_active = models.BooleanField('Активный?')
+    is_staff = models.BooleanField('Персонал?')
     email = models.EmailField('E-mail', unique=True)
-    first_name = models.CharField('Имя', max_length=30)
-    last_name = models.CharField('Фамилия', max_length=30)
-    username = models.CharField('Логин', max_length=30)
+    first_name = models.CharField('Имя', max_length=30, blank=True, null=True)
+    last_name = models.CharField('Фамилия', max_length=30, blank=True, null=True)
+    username = models.CharField('Логин', max_length=30, unique=True)
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email', 'is_staff', 'is_superuser', 'is_active']
 
     class Meta:
         verbose_name = _('user')
