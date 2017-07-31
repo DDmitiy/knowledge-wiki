@@ -16,6 +16,15 @@ class CatalogLook(admin.ModelAdmin):
 class UserLook(admin.ModelAdmin):
     list_display = ('username', 'email', 'is_staff')
     list_filter = ['is_staff', 'is_superuser', 'groups']
+    fieldsets = (
+        (None, {'fields': ('username', 'email', 'password', 'is_staff', 'is_superuser')}),
+        ('Groups & permissions', {
+            'classes': ('collapse',),
+            'fields': ('groups', 'user_permissions')}),
+        ('Advanced options', {
+         'classes': ('collapse',),
+         'fields': ('first_name', 'last_name', 'karma')}),
+    )
 
 
 admin.site.register(Article, ArticleLook)
