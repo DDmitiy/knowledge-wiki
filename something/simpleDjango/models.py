@@ -41,11 +41,11 @@ class Catalog(models.Model):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    birth_date = models.DateField('Дата рождения', blank=True, null=True)
-    groups = models.ManyToManyField(Group, 'Группы', blank=True, null=True)
-    user_permissions = models.ManyToManyField(Permission, 'Права', blank=True, null=True)
+    # birth_date = models.DateField('Дата рождения', blank=True, null=True)
+    groups = models.ManyToManyField(Group, 'Группы', blank=True)
+    user_permissions = models.ManyToManyField(Permission, 'Права', blank=True)
     is_superuser = models.BooleanField('Суперпользователь?')
-    is_active = models.BooleanField('Активный?')
+    karma = models.IntegerField('Карма', default=0)
     is_staff = models.BooleanField('Персонал?')
     email = models.EmailField('E-mail', unique=True)
     first_name = models.CharField('Имя', max_length=30, blank=True, null=True)
@@ -55,7 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'is_staff', 'is_superuser', 'is_active']
+    REQUIRED_FIELDS = ['email']
 
     class Meta:
         verbose_name = _('user')
