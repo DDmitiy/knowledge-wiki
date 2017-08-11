@@ -5,5 +5,5 @@ from django.contrib import auth
 
 
 def home(request):
-    return render(request, 'index.html',
+    return render(request, 'index_admin.html',
                   {'username': auth.get_user(request).username})
