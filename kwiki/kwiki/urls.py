@@ -1,4 +1,4 @@
-"""something URL Configuration
+"""kwiki URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
@@ -14,8 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.contrib import admin
 from . import views
+# from kwiki import admin_panel
 
 urlpatterns = [
-    url(r'^auth/$', views.auth),
+    url(r'^myadmin/', include('admin_panel.urls')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^$', views.home),
 ]
