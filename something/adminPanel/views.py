@@ -12,8 +12,8 @@ def home(request):
 def auth(request):
     password = CustomUser.objects.values().get(username=request.POST.get('login')).get('password')
     if check_password(request.POST.get('password'), password):
-        return render(request, 'index.html')
-        # return redirect('/')
+        # return render(request, 'index.html')
+        return redirect('/')
     return render(request, 'index_admin.html',
                   {'error': 'Invalid login or password'})
     # return redirect('/myadmin/', {'error': 'Invalid login or password'})
