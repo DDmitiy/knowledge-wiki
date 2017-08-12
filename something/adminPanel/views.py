@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import CustomUser
 from django.contrib.auth.hashers import make_password, check_password
 
@@ -10,10 +10,10 @@ def home(request):
 
 
 def auth(request):
-    try:
-        password = CustomUser.objects.values().get(username=request.POST.get('login')).get('password')
-        if check_password(request.POST.get('password'), password):
-            return render(request, 'index.html')
-    except Exception:
-        return render(request, 'index_admin.html',
-                      {'error': 'Invalid login or password'})
+    password = CustomUser.objects.values().get(username=request.POST.get('login')).get('password')
+    if check_password(request.POST.get('password'), password):
+        # return render(request, 'index.html')
+        return redirect('/')
+    # return render(request, 'index_admin.html',
+    #               {'error': 'Invalid login or password'})
+    return redirect('/myadmin/', kwargs={'error': 'Invalid login or password'})
