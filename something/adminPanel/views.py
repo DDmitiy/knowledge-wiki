@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from .models import CustomUser
+from django.contrib.auth.hashers import make_password, check_password
 
 # Create your views here.
 
@@ -8,4 +10,10 @@ def home(request):
 
 
 def auth(request):
-    return render(request, 'index.html')
+    try:
+        password = CustomUser.objects.values().get(username=request.POST.get('login')).get('password')
+        if check_password(request.POST.get('password'), password):
+            return render(request, 'index.html')
+    except Exception:
+        return render(request, 'index_admin.html',
+                      {'error': 'Invalid login or password'})

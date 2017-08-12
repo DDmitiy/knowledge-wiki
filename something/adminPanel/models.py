@@ -40,7 +40,7 @@ class Catalog(models.Model):
         return '{0} --> {1}'.format(self.parent_catalog, self.title)
 
 
-class User(models.Model):
+class CustomUser(models.Model):
     # birth_date = models.DateField('Дата рождения', blank=True, null=True)
     groups = models.ManyToManyField(Group, 'Группы', blank=True)
     user_permissions = models.ManyToManyField(Permission, 'Права', blank=True)
@@ -51,6 +51,7 @@ class User(models.Model):
     first_name = models.CharField('Имя', max_length=30, blank=True, null=True)
     last_name = models.CharField('Фамилия', max_length=30, blank=True, null=True)
     username = models.CharField('Логин', max_length=30, unique=True)
+    password = models.CharField('Пароль', max_length=100)
 #
 #     objects = UserManager()
 #
