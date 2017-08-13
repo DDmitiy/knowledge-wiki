@@ -1,3 +1,4 @@
+import requests
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import CustomUser
@@ -15,12 +16,15 @@ def auth(request):
         return render(request, 'index_admin.html')
     elif request.method == 'POST':
         try:
-            user = CustomUser.objects.get(username=request.POST.get('login'))
+            login = CustomUser.objects.get(username=request.POST.get('login'))
         except CustomUser.DoesNotExist:
             error = {'error': 'User not found'}
+            # error = {'error': make_password('qwerty')}
         else:
-            if check_password(request.POST.get('password'), user.password):
-                return redirect('/') # auth is success
+            # if check_password(request.POST.get('password'), user.password):
+            if requests.post('http://95.213.128.80:8080/auth', data={'login': login,
+                                                                    'password': request.POST.get('password')}):
+                return redirect('/')    # auth is success
             else:
                 error = {'error': 'Invalid login or password'}
 
