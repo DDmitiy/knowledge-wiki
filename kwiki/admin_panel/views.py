@@ -1,8 +1,9 @@
 import requests
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import CustomUser
-from django.contrib.auth.hashers import make_password, check_password
 
 # Create your views here.
 
@@ -12,23 +13,18 @@ def home(request):
 
 
 def auth(request):
-    if request.method == 'GET':
-        return render(request, 'index_admin.html')
-    elif request.method == 'POST':
-        try:
-            login = CustomUser.objects.get(username=request.POST.get('login'))
-        except CustomUser.DoesNotExist:
-            error = {'error': 'User not found'}
-            # error = {'error': make_password('qwerty')}
+    if request.method == 'POST':
+        data = {'status': None}
+        login = request.POST.get('login')
+        password = request.POST.get('password')
+        if requests.post('http://95.213.128.80:8080/auth',
+                         data={'login': login, 'password': password}):
+            _, user = CustomUser.objects.get_or_create(username=login)
+            data['status'] = str(user)
+            code = 200
         else:
-            # if check_password(request.POST.get('password'), user.password):
-            if requests.post('http://95.213.128.80:8080/auth', data={'login': login,
-                                                                    'password': request.POST.get('password')}):
-                return redirect('/')    # auth is success
-            else:
-                error = {'error': 'Invalid login or password'}
-
-        return render(request, 'index_admin.html', error, status=401)
-
+            data['status'] = 'Invalid login or password'
+            code = 401
+        return JsonResponse(data, status=code)
     else:
-        return HttpResponse(status=403)
+        return HttpResponseNotAllowed(['POST'])
