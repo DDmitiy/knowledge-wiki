@@ -47,7 +47,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField('Суперпользователь?', default=False)
     karma = models.IntegerField('Карма', default=0)
     is_staff = models.BooleanField('Персонал?', default=False)
-    is_active = models.BooleanField('Активный?', default=False)
+    is_active = models.BooleanField('Активный?', default=True)
     email = models.EmailField('E-mail', unique=True, blank=True, null=True)
     first_name = models.CharField('Имя', max_length=30, blank=True, null=True)
     last_name = models.CharField('Фамилия', max_length=30, blank=True, null=True)
