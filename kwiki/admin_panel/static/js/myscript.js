@@ -7,7 +7,7 @@ $("#auth_form").submit(function(e){
         url: 'auth/',
         type: "POST",
         data: $.param({
-            login: $("#login").val(),
+            username: $("#login").val(),
             password: $("#password").val(),
             }),
         success: function(data){

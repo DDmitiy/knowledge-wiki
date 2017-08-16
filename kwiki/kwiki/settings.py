@@ -119,6 +119,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+AUTH_USER_MODEL = 'admin_panel.User'
+
+
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [

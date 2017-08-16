@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article, Catalog, CustomUser
+from .models import Article, Catalog, User
 from django.forms.widgets import HiddenInput
 # Register your models here.
 
@@ -18,7 +18,7 @@ class UserLook(admin.ModelAdmin):
     list_display = ('username', 'email', 'is_staff')
     list_filter = ['is_staff', 'is_superuser', 'groups']
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'password', 'is_staff', 'is_superuser')}),
+        (None, {'fields': ('username', 'email', 'password', 'is_staff', 'is_superuser', 'is_active')}),
         ('Groups & permissions', {
             'classes': ('collapse',),
             'fields': ('groups', 'user_permissions')}),
@@ -28,6 +28,7 @@ class UserLook(admin.ModelAdmin):
     )
 
 
+admin.site.register(User, UserLook)
 admin.site.register(Article, ArticleLook)
 admin.site.register(Catalog, CatalogLook)
-admin.site.register(CustomUser, UserLook)
+# admin.site.register(CustomUser, UserLook)
