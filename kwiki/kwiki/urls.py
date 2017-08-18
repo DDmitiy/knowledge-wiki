@@ -20,6 +20,7 @@ from . import views
 
 urlpatterns = [
     url(r'^myadmin/', include('admin_panel.urls')),
+    url(r'^logout/$', views.logout),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home),
 ]
