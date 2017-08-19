@@ -15,16 +15,16 @@ class CatalogLook(admin.ModelAdmin):
 
 
 class UserLook(admin.ModelAdmin):
-    list_display = ('username', 'email', 'is_staff')
+    list_display = ('username', 'is_staff')
     list_filter = ['is_staff', 'is_superuser', 'groups']
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'password', 'is_staff', 'is_superuser', 'is_active')}),
+        (None, {'fields': ('username', 'is_staff', 'is_superuser', 'is_active')}),
         ('Groups & permissions', {
             'classes': ('collapse',),
             'fields': ('groups', 'user_permissions')}),
         ('Advanced options', {
          'classes': ('collapse',),
-         'fields': ('first_name', 'last_name', 'karma')}),
+         'fields': ('karma',)}),
     )
 
 

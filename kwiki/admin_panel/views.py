@@ -1,6 +1,5 @@
-from .user_manager import CustomAuth
-from django.contrib.auth import login, logout
-import simplejson as json
+from django.contrib.auth import login, logout, authenticate
+import json
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import render, redirect
 
@@ -16,7 +15,8 @@ def auth(request):
         data = {'status': None}
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = CustomAuth.authenticate(request, username=username, password=password)
+        # убрал хардкод ауф-бекенда
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             data['status'] = 1

@@ -1,10 +1,9 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import AbstractUser, Group, Permission, AbstractBaseUser, UserManager, PermissionsMixin, User
-from django.core.mail import send_mail
+from django.contrib.auth.models import Group, Permission, AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
-
+from .user_manager import UserManager
 
 # Create your models here.
 
@@ -39,49 +38,28 @@ class Catalog(models.Model):
     def __str__(self):
         return '{0} --> {1}'.format(self.parent_catalog, self.title)
 
-
 class User(AbstractBaseUser, PermissionsMixin):
-    # birth_date = models.DateField('Дата рождения', blank=True, null=True)
     groups = models.ManyToManyField(Group, 'Группы', blank=True)
     user_permissions = models.ManyToManyField(Permission, 'Права', blank=True)
     is_superuser = models.BooleanField('Суперпользователь?', default=False)
     karma = models.IntegerField('Карма', default=0)
     is_staff = models.BooleanField('Персонал?', default=False)
     is_active = models.BooleanField('Активный?', default=True)
-    email = models.EmailField('E-mail', unique=True, blank=True, null=True)
-    first_name = models.CharField('Имя', max_length=30, blank=True, null=True)
-    last_name = models.CharField('Фамилия', max_length=30, blank=True, null=True)
     username = models.CharField('Логин', max_length=30, unique=True)
-    # username = models.OneToOneField(User, max_length=30, unique=True)
-    password = models.CharField('Пароль', max_length=100)
 
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'is_active']
+
+    # fields, which must be prompted when creating user via the `createsuperuser`
+    REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
-    def get_full_name(self):
-        '''
-        Returns the first_name plus the last_name, with a space in between.
-        '''
-        full_name = '{0} {1}'.format(self.first_name, self.last_name)
-        return full_name.strip()
-
     def get_short_name(self):
-        '''
-        Returns the short name for the user.
-        '''
-        return self.first_name
+        return self.username
 
-    def email_user(self, subject, message, from_email=None, **kwargs):
-        '''
-        Sends an email to this User.
-        '''
-        send_mail(subject, message, from_email, [self.email], **kwargs)
-
-    # def get_or_create(self, username):
-    #
+    def get_full_name(self):
+        return self.username
