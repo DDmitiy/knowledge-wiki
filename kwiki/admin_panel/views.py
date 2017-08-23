@@ -1,4 +1,4 @@
-from django.contrib.auth import login, logout, authenticate
+from django.contrib import auth
 import json
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import render, redirect
@@ -7,22 +7,13 @@ from django.shortcuts import render, redirect
 
 
 def home(request):
-    return render(request, 'index_admin.html')
-
-
-def auth(request):
-    if request.method == 'POST':
-        data = {'status': None}
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        # убрал хардкод ауф-бекенда
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            data['status'] = 1
-        else:
-            data['status'] = 0
-        data = json.dumps(data)
-        return HttpResponse(data, content_type='application/json')
+    if auth.get_user(request).username:
+        return render(request, '', {
+            'username': auth.get_user(request).username
+        })
     else:
-        return HttpResponseNotAllowed(['POST'])
+        return render(request, 'auth_form.html')
+
+
+
+

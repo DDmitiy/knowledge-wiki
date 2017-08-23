@@ -1,7 +1,7 @@
 import requests
 from django.contrib.auth.backends import ModelBackend
 
-from .models import User
+from admin_panel.models import User
 
 
 class CustomAuth(ModelBackend):

@@ -4,7 +4,7 @@ $("#auth_form").submit(function(e){
     e.preventDefault();
     $.ajax({
         headers: { "X-CSRFToken": readCookie("csrftoken") },
-        url: 'auth/',
+        url: '/auth/login/',
         type: "POST",
         data: $.param({
             username: $("#login").val(),

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'admin_panel',
+    'custom_auth',
     'kwiki',
 ]
 
@@ -57,7 +58,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': ['/home/project/PycharmProjects/knowledge-wiki/kwiki/kwiki/templates/',
-                 '/home/project/PycharmProjects/knowledge-wiki/kwiki/admin_panel/templates/'],
+                 '/home/project/PycharmProjects/knowledge-wiki/kwiki/admin_panel/templates/',
+                 '/home/project/PycharmProjects/knowledge-wiki/kwiki/custom_auth/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,10 +123,12 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'admin_panel.User'
 
+AUTHENTICATION_BACKENDS = ['custom_auth.custom_auth.CustomAuth']
 
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     ('static', '/home/project/PycharmProjects/knowledge-wiki/kwiki/kwiki/static/'),
     ('static', '/home/project/PycharmProjects/knowledge-wiki/kwiki/admin_panel/static/'),
+    ('static', '/home/project/PycharmProjects/knowledge-wiki/kwiki/custom_auth/static/'),
 ]
